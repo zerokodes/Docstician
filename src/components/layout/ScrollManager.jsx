@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { track, initScrollDepthTracking } from "../../lib/analytics";
 
 /**
  * On route change: scroll to top for new pages, or smooth-scroll to the target
  * element when the URL contains a hash (e.g. "/#features" from another page).
+ * Also fires `page_viewed` and resets scroll-depth tracking per route.
  */
 export function ScrollManager() {
   const { pathname, hash } = useLocation();
@@ -24,6 +26,12 @@ export function ScrollManager() {
     }
     window.scrollTo({ top: 0 });
   }, [pathname, hash]);
+
+  useEffect(() => {
+    track("page_viewed", { path: pathname });
+    const cleanup = initScrollDepthTracking();
+    return cleanup;
+  }, [pathname]);
 
   return null;
 }

@@ -106,15 +106,25 @@ export function Hero() {
 
           <div className="mt-9 flex flex-col items-center gap-4 sm:flex-row lg:justify-start">
             <div data-hero-cta>
-              <MagneticButton href={WAITLIST_FORM_URL} target="_blank">
+              <MagneticButton
+                href={WAITLIST_FORM_URL}
+                target="_blank"
+                trackEvent="hero_cta_clicked"
+                trackProps={{ position: "primary" }}
+              >
                 Join the waitlist
                 <ArrowRight size={16} />
               </MagneticButton>
             </div>
             <div data-hero-cta>
-              <MagneticButton href="#how-it-works" variant="secondary">
+              <MagneticButton
+                href="#how-it-works-preview"
+                variant="secondary"
+                trackEvent="hero_cta_clicked"
+                trackProps={{ position: "secondary" }}
+              >
                 <PlayCircle size={16} />
-                See how it works
+                See it in action
               </MagneticButton>
             </div>
           </div>

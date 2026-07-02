@@ -1,7 +1,9 @@
-import { ShieldCheck, Lock, UserCheck, Quote } from "lucide-react";
+import { ShieldCheck, Lock, UserCheck, Lightbulb } from "lucide-react";
 import SectionHeading from "../ui/SectionHeading";
 import CountUpStat from "../ui/CountUpStat";
 import { useScrollReveal } from "../../hooks/useScrollReveal";
+import { useSectionView } from "../../hooks/useSectionView";
+import { mergeRefs } from "../../lib/mergeRefs";
 import { TRUST_METRICS } from "../../lib/constants";
 
 const PRINCIPLES = [
@@ -24,9 +26,10 @@ const PRINCIPLES = [
 
 export function Trust() {
   const scopeRef = useScrollReveal();
+  const viewRef = useSectionView("trust");
 
   return (
-    <section id="trust" ref={scopeRef} className="relative py-24 sm:py-32">
+    <section id="trust" ref={mergeRefs(scopeRef, viewRef)} className="relative py-24 sm:py-32">
       <div className="container-page">
         <SectionHeading
           eyebrow="Why clinicians will trust it"
@@ -61,13 +64,20 @@ export function Trust() {
         </div>
 
         <div className="glass-panel relative mt-8 overflow-hidden p-8 sm:p-12" data-reveal>
-          <Quote className="absolute right-8 top-8 text-white/5" size={72} aria-hidden="true" />
-          <p className="max-w-2xl font-display text-xl font-medium leading-relaxed text-mist-100 sm:text-2xl">
-            "The clinicians we've spoken with all describe the same feeling — documentation
-            steals the time and attention they'd rather give their patients. That's the exact
-            gap Docstician is being built to close."
+          <div className="flex items-center gap-2 text-teal-300">
+            <Lightbulb size={16} />
+            <span className="text-xs font-semibold uppercase tracking-widest">
+              What we're hearing — not a customer testimonial
+            </span>
+          </div>
+          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-mist-200 sm:text-xl">
+            In early conversations, clinicians consistently describe the same feeling:
+            documentation steals the time and attention they'd rather give their patients.
+            That's the gap Docstician is being built to close.
           </p>
-          <p className="mt-6 text-sm text-mist-400">— Docstician team, from early clinician interviews</p>
+          <p className="mt-6 text-sm text-mist-400">
+            — Docstician team, summarizing early clinician interviews (pre-launch)
+          </p>
         </div>
       </div>
     </section>

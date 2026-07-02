@@ -1,13 +1,16 @@
 import { AlertTriangle } from "lucide-react";
 import SectionHeading from "../ui/SectionHeading";
 import { useScrollReveal } from "../../hooks/useScrollReveal";
+import { useSectionView } from "../../hooks/useSectionView";
+import { mergeRefs } from "../../lib/mergeRefs";
 import { PROBLEM_CARDS } from "../../lib/constants";
 
 export function Problem() {
   const scopeRef = useScrollReveal();
+  const viewRef = useSectionView("problem");
 
   return (
-    <section id="problem" ref={scopeRef} className="relative py-24 sm:py-32">
+    <section id="problem" ref={mergeRefs(scopeRef, viewRef)} className="relative py-24 sm:py-32">
       <div className="container-page">
         <SectionHeading
           eyebrow="The reality today"

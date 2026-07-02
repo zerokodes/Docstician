@@ -38,7 +38,7 @@ export function FinalCta() {
 
           <div className="relative">
             <span className="eyebrow" data-cta-reveal>
-              <Sparkles size={12} /> Early access is limited
+              <Sparkles size={12} /> Now building — early access waitlist open
             </span>
 
             <h2
@@ -54,7 +54,12 @@ export function FinalCta() {
             </p>
 
             <div className="mt-9 flex justify-center" data-cta-reveal>
-              <MagneticButton href={WAITLIST_FORM_URL} target="_blank" className="text-base">
+              <MagneticButton
+                href={WAITLIST_FORM_URL}
+                target="_blank"
+                className="text-base"
+                trackEvent="final_cta_clicked"
+              >
                 Join the waitlist
                 <ArrowRight size={18} />
               </MagneticButton>

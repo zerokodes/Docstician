@@ -57,65 +57,57 @@ export const PROBLEM_CARDS = [
   },
 ];
 
-export const FEATURES = [
+// Grouped into two narrative stages instead of one flat grid: the pipeline
+// that turns speech into a note, and the safeguards applied to that note
+// before it ever reaches a patient record.
+export const FEATURE_GROUPS = [
   {
-    title: "Ambient speech capture",
-    description:
-      "Docstician listens during the consultation — no typing, no dictation breaks. Just a natural conversation.",
-    tag: "Capture",
+    stage: "The pipeline",
+    description: "How a conversation becomes a structured note.",
+    items: [
+      {
+        title: "Ambient speech capture",
+        description:
+          "Docstician listens during the consultation — no typing, no dictation breaks. Just a natural conversation.",
+        tag: "Capture",
+      },
+      {
+        title: "Speaker diarization",
+        description:
+          "Automatically separates clinician and patient speech for cleaner, context-aware transcripts.",
+        tag: "Understand",
+      },
+      {
+        title: "Specialty-aware generation",
+        description:
+          "Notes adapt to your profession and specialty — orthopaedic, neurological, dental, and more.",
+        tag: "Generate",
+      },
+    ],
   },
   {
-    title: "Speaker diarization",
-    description:
-      "Automatically separates clinician and patient speech for cleaner, context-aware transcripts.",
-    tag: "Understand",
-  },
-  {
-    title: "Specialty-aware generation",
-    description:
-      "Notes adapt to your profession and specialty — orthopaedic, neurological, dental, and more.",
-    tag: "Generate",
-  },
-  {
-    title: "Clinician-in-the-loop review",
-    description:
-      "Every note is a draft until you approve it. You stay the final decision maker, always.",
-    tag: "Verify",
-  },
-  {
-    title: "Grounded, hallucination-resistant AI",
-    description:
-      "Documentation is generated strictly from the transcript — never invented, always traceable.",
-    tag: "Trust",
-  },
-  {
-    title: "Flexible export",
-    description:
-      "Send finished notes to PDF, hospital records, or your EHR — fit into the workflow you already use.",
-    tag: "Export",
-  },
-];
-
-export const WORKFLOW_STEPS = [
-  {
-    title: "Session starts",
-    description: "Clinician opens a patient session and selects the case specialty.",
-  },
-  {
-    title: "Docstician listens",
-    description: "Speech is captured and transcribed in real time, even in noisy clinical settings.",
-  },
-  {
-    title: "AI understands context",
-    description: "Clinical context engine applies profession, specialty, and encounter type.",
-  },
-  {
-    title: "Note is generated",
-    description: "A structured, specialty-specific draft note is produced from the transcript.",
-  },
-  {
-    title: "Clinician reviews & exports",
-    description: "You verify, correct if needed, approve, and export into your workflow.",
+    stage: "The safeguards",
+    description: "What happens before a note ever reaches a patient record.",
+    items: [
+      {
+        title: "Clinician-in-the-loop review",
+        description:
+          "Every note is a draft until you approve it. You stay the final decision maker, always.",
+        tag: "Verify",
+      },
+      {
+        title: "Grounded, hallucination-resistant AI",
+        description:
+          "Documentation is generated strictly from the transcript — never invented, always traceable.",
+        tag: "Trust",
+      },
+      {
+        title: "Flexible export",
+        description:
+          "Send finished notes to PDF, hospital records, or your EHR — fit into the workflow you already use.",
+        tag: "Export",
+      },
+    ],
   },
 ];
 

@@ -3,6 +3,8 @@ import { Activity, MessagesSquare, TrendingUp, Sparkles } from "lucide-react";
 import { gsap } from "../../lib/gsapSetup";
 import SectionHeading from "../ui/SectionHeading";
 import { useScrollReveal } from "../../hooks/useScrollReveal";
+import { useSectionView } from "../../hooks/useSectionView";
+import { mergeRefs } from "../../lib/mergeRefs";
 
 const PIPELINE = [
   { label: "New sessions", value: 68 },
@@ -12,6 +14,7 @@ const PIPELINE = [
 
 export function ProductPreview() {
   const scopeRef = useScrollReveal();
+  const viewRef = useSectionView("product_preview");
   const barsRef = useRef([]);
 
   useEffect(() => {
@@ -40,7 +43,7 @@ export function ProductPreview() {
   }, [scopeRef]);
 
   return (
-    <section ref={scopeRef} className="relative py-24 sm:py-32">
+    <section ref={mergeRefs(scopeRef, viewRef)} className="relative py-24 sm:py-32">
       <div className="container-page">
         <SectionHeading
           eyebrow="A glimpse of the workspace"
@@ -136,6 +139,11 @@ export function ProductPreview() {
             </div>
           </div>
         </div>
+
+        <p className="mt-4 text-center text-xs text-mist-500">
+          Illustrative preview — Docstician is in active development. Figures shown are
+          representative, not live product data.
+        </p>
       </div>
     </section>
   );

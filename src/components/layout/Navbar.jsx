@@ -5,6 +5,7 @@ import { gsap } from "../../lib/gsapSetup";
 import Logo from "../ui/Logo";
 import NavLink from "../ui/NavLink";
 import MagneticButton from "../ui/MagneticButton";
+import { track } from "../../lib/analytics";
 import { NAV_LINKS, WAITLIST_FORM_URL } from "../../lib/constants";
 
 export function Navbar() {
@@ -62,32 +63,42 @@ export function Navbar() {
             <Logo />
           </Link>
 
-          <ul className="hidden items-center gap-8 md:flex">
+          <ul className="hidden items-center gap-8 lg:flex">
             {NAV_LINKS.map((link) => (
               <li key={link.label}>
                 <NavLink
                   item={link}
+                  onClick={() => track("nav_link_clicked", { label: link.label })}
                   className="text-sm font-medium text-mist-300 transition-colors hover:text-mist-50"
                 />
               </li>
             ))}
           </ul>
 
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             <MagneticButton
               href={WAITLIST_FORM_URL}
               target="_blank"
               className="!px-5 !py-2.5 text-sm"
+              trackEvent="nav_cta_clicked"
             >
               Join the waitlist
             </MagneticButton>
           </div>
 
-          {/* Mobile menu toggle — three-line hamburger that morphs into an X */}
+          {/* Mobile/tablet menu toggle — three-line hamburger that morphs into
+              an X. Sized to the 44x44px minimum touch-target recommendation
+              (WCAG 2.5.5 / platform HIGs); the glyph itself stays visually
+              smaller and is centered inside. */}
           <button
             type="button"
-            onClick={() => setMobileOpen((v) => !v)}
-            className="relative z-[70] inline-flex h-9 w-9 items-center justify-center rounded-lg text-mist-100 md:hidden"
+            onClick={() => {
+              setMobileOpen((v) => {
+                if (!v) track("mobile_menu_opened");
+                return !v;
+              });
+            }}
+            className="relative z-[70] -mr-1 inline-flex h-11 w-11 items-center justify-center rounded-lg text-mist-100 lg:hidden"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
           >
@@ -120,7 +131,7 @@ export function Navbar() {
         <div
           onClick={closeMenu}
           aria-hidden={!mobileOpen}
-          className={`fixed inset-0 z-[60] bg-ink-950/70 backdrop-blur-xl transition-opacity duration-300 md:hidden ${
+          className={`fixed inset-0 z-[60] bg-ink-950/70 backdrop-blur-xl transition-opacity duration-300 lg:hidden ${
             mobileOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
           }`}
         >
@@ -136,7 +147,10 @@ export function Navbar() {
                   <li key={link.label}>
                     <NavLink
                       item={link}
-                      onClick={closeMenu}
+                      onClick={() => {
+                        track("nav_link_clicked", { label: link.label, via: "mobile_menu" });
+                        closeMenu();
+                      }}
                       className="block rounded-lg px-3 py-3 text-base font-medium text-mist-200 transition-colors hover:bg-white/5 hover:text-mist-50"
                     />
                   </li>
@@ -146,6 +160,7 @@ export function Navbar() {
                     href={WAITLIST_FORM_URL}
                     target="_blank"
                     className="w-full"
+                    trackEvent="mobile_menu_cta_clicked"
                     onClick={closeMenu}
                   >
                     Join the waitlist

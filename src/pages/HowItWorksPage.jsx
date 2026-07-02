@@ -166,7 +166,12 @@ export function HowItWorksPage() {
                 Every note is a draft until you approve it. Docstician assists your
                 clinical judgement — it never replaces it.
               </p>
-              <MagneticButton href={WAITLIST_FORM_URL} target="_blank" className="mt-8">
+              <MagneticButton
+                href={WAITLIST_FORM_URL}
+                target="_blank"
+                className="mt-8"
+                trackEvent="how_it_works_cta_clicked"
+              >
                 Join the waitlist
                 <ArrowRight size={16} />
               </MagneticButton>

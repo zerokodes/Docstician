@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { ShieldCheck } from "lucide-react";
 import Logo from "../ui/Logo";
 import NavLink from "../ui/NavLink";
 import { NAV_LINKS, LEGAL_LINKS, WAITLIST_FORM_URL } from "../../lib/constants";
@@ -17,6 +18,16 @@ export function Footer() {
             The AI clinical documentation assistant that listens, understands, and writes —
             so clinicians can focus on patient care.
           </p>
+          <div className="mt-5 flex items-start gap-2 text-xs text-mist-500">
+            <ShieldCheck size={14} className="mt-0.5 shrink-0 text-teal-400/70" />
+            <span>
+              Patient data follows a controlled, anonymized pipeline. Notes require clinician
+              review before they ever reach a record. Questions:{" "}
+              <a href="mailto:privacy@docstician.com" className="text-mist-400 underline underline-offset-2 hover:text-mist-100">
+                privacy@docstician.com
+              </a>
+            </span>
+          </div>
         </div>
 
         <div className="grid grid-cols-2 gap-10 sm:grid-cols-3">

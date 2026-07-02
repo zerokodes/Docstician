@@ -3,6 +3,9 @@ import { Ear, Brain, NotebookPen } from "lucide-react";
 import SectionHeading from "../ui/SectionHeading";
 import GlowOrb from "../ui/GlowOrb";
 import { useScrollReveal } from "../../hooks/useScrollReveal";
+import { useSectionView } from "../../hooks/useSectionView";
+import { mergeRefs } from "../../lib/mergeRefs";
+import { track } from "../../lib/analytics";
 
 const MODES = [
   {
@@ -31,10 +34,11 @@ const MODES = [
 export function Solution() {
   const [active, setActive] = useState(MODES[0].id);
   const scopeRef = useScrollReveal();
+  const viewRef = useSectionView("solution");
   const activeMode = MODES.find((m) => m.id === active);
 
   return (
-    <section id="solution" ref={scopeRef} className="relative py-24 sm:py-32">
+    <section id="solution" ref={mergeRefs(scopeRef, viewRef)} className="relative py-24 sm:py-32">
       <GlowOrb className="left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2" color="teal" />
 
       <div className="container-page relative">
@@ -52,8 +56,11 @@ export function Solution() {
               <button
                 key={mode.id}
                 type="button"
-                onClick={() => setActive(mode.id)}
-                className={`glass-panel flex items-center gap-3 p-5 text-left transition-all duration-300 ${
+                onClick={() => {
+                  setActive(mode.id);
+                  track("solution_tab_clicked", { value: mode.id });
+                }}
+                className={`glass-panel flex items-center gap-3 p-5 text-left transition-[background-color,border-color] duration-300 ${
                   isActive ? "border-teal-400/40 bg-teal-400/[0.06]" : "hover:bg-white/[0.05]"
                 }`}
                 aria-pressed={isActive}
@@ -93,7 +100,7 @@ export function Solution() {
                     return (
                       <div key={mode.id} className="flex items-center gap-3">
                         <div
-                          className={`flex h-14 w-14 items-center justify-center rounded-full border transition-all duration-500 ${
+                          className={`isolate flex h-14 w-14 items-center justify-center rounded-full border transition-[transform,background-color,border-color,color,box-shadow] duration-500 ease-out will-change-transform ${
                             isActive
                               ? "scale-110 border-teal-400 bg-teal-400/10 text-teal-300 glow-teal"
                               : "border-white/10 text-mist-500"

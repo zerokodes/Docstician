@@ -1,46 +1,54 @@
 import { useEffect, useRef } from "react";
-import { CheckCircle2 } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Mic, Brain, FileCheck2, ArrowRight } from "lucide-react";
 import { gsap, ScrollTrigger } from "../../lib/gsapSetup";
 import SectionHeading from "../ui/SectionHeading";
-import { WORKFLOW_STEPS } from "../../lib/constants";
+import { useSectionView } from "../../hooks/useSectionView";
+import { mergeRefs } from "../../lib/mergeRefs";
+
+// A condensed, 3-step teaser — deliberately mirrors the Listen/Understand/Write
+// language used in the Solution section instead of maintaining a second,
+// independently-drifting description of the full pipeline. The complete
+// step-by-step breakdown lives in one place: the /how-it-works page.
+const TEASER_STEPS = [
+  {
+    icon: Mic,
+    title: "Listen",
+    description: "Docstician captures the consultation in real time — no typing, no dictation breaks.",
+  },
+  {
+    icon: Brain,
+    title: "Understand",
+    description: "Profession, specialty, and context shape how the conversation is interpreted.",
+  },
+  {
+    icon: FileCheck2,
+    title: "Write",
+    description: "A structured, specialty-formatted draft note is ready for your review.",
+  },
+];
 
 export function HowItWorks() {
   const sectionRef = useRef(null);
-  const lineRef = useRef(null);
   const stepRefs = useRef([]);
+  const viewRef = useSectionView("how_it_works_preview");
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // The connector line "draws" downward as the section scrolls through view.
-      gsap.fromTo(
-        lineRef.current,
-        { scaleY: 0 },
-        {
-          scaleY: 1,
-          ease: "none",
-          transformOrigin: "top",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 65%",
-            end: "bottom 60%",
-            scrub: 0.6,
-          },
-        }
-      );
-
-      stepRefs.current.forEach((step) => {
+      stepRefs.current.forEach((step, i) => {
         if (!step) return;
         gsap.fromTo(
           step,
-          { opacity: 0, x: -30 },
+          { opacity: 0, y: 24 },
           {
             opacity: 1,
-            x: 0,
+            y: 0,
             duration: 0.7,
+            delay: i * 0.1,
             ease: "power3.out",
             scrollTrigger: {
               trigger: step,
-              start: "top 78%",
+              start: "top 80%",
             },
           }
         );
@@ -53,44 +61,47 @@ export function HowItWorks() {
   }, []);
 
   return (
-    <section id="how-it-works" ref={sectionRef} className="relative py-24 sm:py-32">
+    <section
+      id="how-it-works-preview"
+      ref={mergeRefs(sectionRef, viewRef)}
+      className="relative py-24 sm:py-32"
+    >
       <div className="container-page">
         <SectionHeading
           eyebrow="From voice to record"
-          title="A single workflow, from first word to final note."
-          description="Every step is designed to keep the clinician in control while removing the manual burden of writing it all down."
+          title="One conversation becomes one finished note."
+          description="Every step keeps the clinician in control while removing the manual burden of writing it all down."
         />
 
-        <div className="relative mt-20 max-w-2xl mx-auto lg:mx-0 lg:max-w-none">
-          <div className="absolute left-[19px] top-2 bottom-2 w-px bg-white/10 sm:left-[23px]">
-            <div
-              ref={lineRef}
-              className="h-full w-full origin-top bg-gradient-to-b from-teal-400 via-teal-400 to-violet-400"
-            />
-          </div>
-
-          <ol className="space-y-10">
-            {WORKFLOW_STEPS.map((step, i) => (
-              <li
+        <div className="mt-16 grid gap-5 sm:grid-cols-3">
+          {TEASER_STEPS.map((step, i) => {
+            const Icon = step.icon;
+            return (
+              <div
                 key={step.title}
                 ref={(el) => (stepRefs.current[i] = el)}
-                className="relative flex gap-6 pl-0 sm:gap-8"
+                className="glass-panel p-7"
               >
-                <div className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-teal-400/40 bg-ink-900 text-sm font-semibold text-teal-300 sm:h-12 sm:w-12">
-                  {i === WORKFLOW_STEPS.length - 1 ? (
-                    <CheckCircle2 size={20} className="text-teal-300" />
-                  ) : (
-                    i + 1
-                  )}
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-teal-400/10 text-teal-300">
+                  <Icon size={20} />
                 </div>
+                <h3 className="mt-5 text-lg font-semibold text-mist-50">
+                  {i + 1}. {step.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-mist-400">{step.description}</p>
+              </div>
+            );
+          })}
+        </div>
 
-                <div className="glass-panel flex-1 p-6">
-                  <h3 className="text-lg font-semibold text-mist-50">{step.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-mist-400">{step.description}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
+        <div className="mt-10 text-center">
+          <Link
+            to="/how-it-works"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-teal-300 transition-colors hover:text-teal-200"
+          >
+            See the full pipeline, step by step
+            <ArrowRight size={16} />
+          </Link>
         </div>
       </div>
     </section>
