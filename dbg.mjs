@@ -1,0 +1,13 @@
+import { chromium } from "playwright";
+const browser = await chromium.launch({ args: ["--no-sandbox"] });
+const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+const errs = [];
+page.on("pageerror", (e) => errs.push(String(e)));
+await page.goto("http://localhost:5180/", { waitUntil: "networkidle" });
+await page.waitForTimeout(3000);
+const count = await page.evaluate(() => document.querySelectorAll("header").length);
+const rootHtml = await page.evaluate(() => document.getElementById("root").innerHTML.slice(0, 200));
+console.log("header count:", count);
+console.log("root starts:", rootHtml);
+console.log("ERRORS:", JSON.stringify(errs));
+await browser.close();

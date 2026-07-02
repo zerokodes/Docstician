@@ -1,0 +1,136 @@
+@import "tailwindcss";
+
+@theme {
+  /* Typography */
+  --font-display: "Space Grotesk", "Inter", sans-serif;
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* Core surface palette — deep clinical-intelligence dark */
+  --color-ink-950: #050810;
+  --color-ink-900: #070b16;
+  --color-ink-850: #0a0f1d;
+  --color-ink-800: #0e1526;
+  --color-ink-700: #141d33;
+  --color-ink-600: #1c2740;
+  --color-ink-500: #2a3855;
+
+  --color-mist-400: #7c8aa8;
+  --color-mist-300: #a3aec6;
+  --color-mist-200: #c7cfe0;
+  --color-mist-100: #e7eaf3;
+  --color-mist-50: #f6f7fb;
+
+  /* Signature accent — clinical teal / cyan (AI + medical) */
+  --color-teal-500: #14e0c8;
+  --color-teal-400: #3ff0d9;
+  --color-teal-300: #7ef7e7;
+  --color-teal-600: #0bb8a4;
+  --color-teal-700: #0a9686;
+
+  /* Secondary accent — violet depth */
+  --color-violet-500: #7c5cff;
+  --color-violet-400: #9b82ff;
+  --color-violet-600: #6440e6;
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-slow: pulse-slow 4s ease-in-out infinite;
+  --animate-marquee: marquee 30s linear infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-16px); }
+  }
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.9; }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+}
+
+@layer base {
+  * {
+    @apply border-ink-600/60;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-ink-950 text-mist-100 font-sans antialiased m-0;
+    background-image:
+      radial-gradient(60% 50% at 15% 0%, rgba(20, 224, 200, 0.08), transparent 60%),
+      radial-gradient(50% 40% at 90% 15%, rgba(124, 92, 255, 0.10), transparent 60%);
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    @apply bg-teal-500/30 text-mist-50;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-ink-950;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-ink-600 rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-ink-500;
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-[1280px] px-6 sm:px-8 lg:px-12;
+  }
+
+  .glass-panel {
+    @apply relative rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl;
+    box-shadow: 0 1px 0 0 rgba(255,255,255,0.04) inset, 0 8px 40px -12px rgba(0,0,0,0.6);
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-mist-50 via-mist-50 to-teal-300;
+  }
+
+  .text-gradient-accent {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-teal-300 via-teal-400 to-violet-400;
+  }
+
+  .glow-teal {
+    box-shadow: 0 0 0 1px rgba(20,224,200,0.25), 0 0 60px -10px rgba(20,224,200,0.35);
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-teal-400 to-teal-500 px-6 py-3 text-sm font-semibold text-ink-950 transition-transform duration-300 hover:scale-[1.03] active:scale-[0.98];
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-6 py-3 text-sm font-semibold text-mist-100 backdrop-blur-md transition-colors duration-300 hover:bg-white/[0.08] hover:border-white/25;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-1.5 text-xs font-medium uppercase tracking-[0.15em] text-teal-300/90;
+  }
+
+  .noise-overlay {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+  }
+
+  .glow-orb-teal {
+    background: radial-gradient(circle, rgba(20,224,200,0.45) 0%, rgba(20,224,200,0.12) 45%, transparent 75%);
+  }
+
+  .glow-orb-violet {
+    background: radial-gradient(circle, rgba(124,92,255,0.45) 0%, rgba(124,92,255,0.12) 45%, transparent 75%);
+  }
+}
